@@ -25,7 +25,6 @@ import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.Severity;
@@ -36,9 +35,9 @@ import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.qualityprofile.db.QualityProfileKey;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.rule.RuleTesting;
-import org.sonar.server.tester.ServerTester;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.StringReader;
@@ -48,13 +47,10 @@ import java.util.List;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class QProfileBackuperMediumTest {
+public class QProfileBackuperMediumTest extends MediumTest {
 
   static final QualityProfileKey XOO_PROFILE_KEY = QualityProfileKey.of("P1", "xoo");
   static final QualityProfileKey XOO_CHILD_PROFILE_KEY = QualityProfileKey.of("P2", "xoo");
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
 
   DbClient db;
   DbSession dbSession;

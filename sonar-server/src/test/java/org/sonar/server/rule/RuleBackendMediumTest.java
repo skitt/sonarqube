@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -35,6 +34,7 @@ import org.sonar.core.persistence.DbSession;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
 import org.sonar.core.technicaldebt.db.CharacteristicDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.debt.DebtTesting;
 import org.sonar.server.rule.db.RuleDao;
@@ -42,7 +42,6 @@ import org.sonar.server.rule.index.RuleDoc;
 import org.sonar.server.rule.index.RuleIndex;
 import org.sonar.server.rule.index.RuleQuery;
 import org.sonar.server.search.QueryOptions;
-import org.sonar.server.tester.ServerTester;
 
 import java.util.List;
 
@@ -51,10 +50,7 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * Test persistence in db and indexation in es (--> integration of DAOs and Indexes)
  */
-public class RuleBackendMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class RuleBackendMediumTest extends MediumTest {
 
   RuleDao dao = tester.get(RuleDao.class);
   RuleIndex index = tester.get(RuleIndex.class);

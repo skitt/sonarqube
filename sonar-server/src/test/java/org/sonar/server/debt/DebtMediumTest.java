@@ -20,24 +20,20 @@
 
 package org.sonar.server.debt;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.api.server.debt.DebtCharacteristic;
 import org.sonar.api.server.debt.internal.DefaultDebtCharacteristic;
 import org.sonar.core.permission.GlobalPermissions;
-import org.sonar.server.tester.ServerTester;
+import org.sonar.server.MediumTest;
 import org.sonar.server.user.MockUserSession;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class DebtMediumTest {
-
-  @Rule
-  public ServerTester serverTester = new ServerTester();
+public class DebtMediumTest extends MediumTest {
 
   @Test
   public void find_characteristics() throws Exception {
-    DebtModelService debtModelService = serverTester.get(DebtModelService.class);
+    DebtModelService debtModelService = tester.get(DebtModelService.class);
 
     // Only root characteristics
     assertThat(debtModelService.characteristics()).hasSize(8);
@@ -50,7 +46,7 @@ public class DebtMediumTest {
   public void create_characteristic() throws Exception {
     MockUserSession.set().setGlobalPermissions(GlobalPermissions.SYSTEM_ADMIN);
 
-    DebtModelService debtModelService = serverTester.get(DebtModelService.class);
+    DebtModelService debtModelService = tester.get(DebtModelService.class);
     int nb = debtModelService.characteristics().size();
 
     DebtCharacteristic result = debtModelService.create("New characteristic", null);
@@ -67,7 +63,7 @@ public class DebtMediumTest {
   public void create_sub_characteristic() throws Exception {
     MockUserSession.set().setGlobalPermissions(GlobalPermissions.SYSTEM_ADMIN);
 
-    DebtModelService debtModelService = serverTester.get(DebtModelService.class);
+    DebtModelService debtModelService = tester.get(DebtModelService.class);
 
     DefaultDebtCharacteristic parent = (DefaultDebtCharacteristic) debtModelService.characteristicByKey("REUSABILITY");
 

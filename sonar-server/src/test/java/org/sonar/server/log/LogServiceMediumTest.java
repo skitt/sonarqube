@@ -23,29 +23,23 @@ package org.sonar.server.log;
 import org.elasticsearch.common.collect.Iterables;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.sonar.core.log.Log;
 import org.sonar.core.persistence.DbSession;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.log.db.LogDao;
 import org.sonar.server.log.index.LogIndex;
 import org.sonar.server.log.index.LogQuery;
 import org.sonar.server.log.index.LogResult;
-import org.sonar.server.search.IndexProperties;
 import org.sonar.server.search.QueryOptions;
-import org.sonar.server.tester.ServerTester;
 
 import java.util.Iterator;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class LogServiceMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester()
-    .setProperty(IndexProperties.HTTP_PORT, "9200");
+public class LogServiceMediumTest extends MediumTest {
 
   LogService service = tester.get(LogService.class);
   LogDao dao = tester.get(LogDao.class);

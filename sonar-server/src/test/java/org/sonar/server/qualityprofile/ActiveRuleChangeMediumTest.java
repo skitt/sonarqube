@@ -22,22 +22,17 @@ package org.sonar.server.qualityprofile;
 import org.elasticsearch.common.collect.Iterables;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.core.log.Log;
 import org.sonar.core.persistence.DbSession;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.log.LogService;
 import org.sonar.server.log.index.LogIndex;
-import org.sonar.server.tester.ServerTester;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class ActiveRuleChangeMediumTest {
-
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class ActiveRuleChangeMediumTest extends MediumTest{
 
   LogService service = tester.get(LogService.class);
   LogIndex index = tester.get(LogIndex.class);

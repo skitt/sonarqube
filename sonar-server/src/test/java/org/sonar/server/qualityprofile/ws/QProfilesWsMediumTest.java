@@ -22,7 +22,6 @@ package org.sonar.server.qualityprofile.ws;
 import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -35,6 +34,7 @@ import org.sonar.core.qualityprofile.db.ActiveRuleDto;
 import org.sonar.core.qualityprofile.db.ActiveRuleKey;
 import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.rule.RuleDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.exceptions.BadRequestException;
 import org.sonar.server.qualityprofile.index.ActiveRuleIndex;
@@ -43,17 +43,13 @@ import org.sonar.server.rule.index.RuleQuery;
 import org.sonar.server.rule.ws.SearchAction;
 import org.sonar.server.search.QueryOptions;
 import org.sonar.server.search.ws.SearchOptions;
-import org.sonar.server.tester.ServerTester;
 import org.sonar.server.user.MockUserSession;
 import org.sonar.server.ws.WsTester;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class QProfilesWsMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class QProfilesWsMediumTest extends MediumTest {
 
   private static final String API_BUILT_IN_METHOD = "restore_built_in";
 

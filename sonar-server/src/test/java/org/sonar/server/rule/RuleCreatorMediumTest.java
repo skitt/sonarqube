@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -34,19 +33,16 @@ import org.sonar.check.Cardinality;
 import org.sonar.core.persistence.DbSession;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.rule.db.RuleDao;
-import org.sonar.server.tester.ServerTester;
 
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class RuleCreatorMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class RuleCreatorMediumTest extends MediumTest {
 
   DbSession dbSession;
   DbClient db = tester.get(DbClient.class);

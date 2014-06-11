@@ -35,6 +35,7 @@ import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.qualityprofile.db.QualityProfileKey;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.platform.Platform;
 import org.sonar.server.qualityprofile.QProfileService;
@@ -43,28 +44,36 @@ import org.sonar.server.rule.index.RuleIndex;
 import org.sonar.server.rule.index.RuleQuery;
 import org.sonar.server.rule.index.RuleResult;
 import org.sonar.server.search.QueryOptions;
-import org.sonar.server.tester.ServerTester;
 import org.sonar.server.user.MockUserSession;
 
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class RegisterRulesMediumTest {
+public class RegisterRulesMediumTest extends MediumTest {
+
+  public RegisterRulesMediumTest(){
+    super(false);
+  }
 
   // Hack to restart server without x2
   static boolean includeX1 = true, includeX2 = true;
-
-  @org.junit.Rule
-  public ServerTester tester = new ServerTester().addComponents(XooRulesDefinition.class);
 
   DbClient db;
   DbSession dbSession;
 
   @Before
   public void before() {
+    tester
+      .reload()
+      .addComponents(XooRulesDefinition.class)
+      .start();
     db = tester.get(DbClient.class);
     dbSession = tester.get(DbClient.class).openSession(false);
+    if (dbSession == null) {
+
+    }
+
   }
 
   @After
@@ -170,7 +179,7 @@ public class RegisterRulesMediumTest {
     // restart without x1 and x2 -> keep active rule of x1
     includeX1 = false;
     includeX2 = false;
-    tester.get(Platform.class).restart();
+    tester.restart();
     dbSession.clearCache();
     assertThat(db.ruleDao().getByKey(dbSession, RuleKey.of("xoo", "x1")).getStatus()).isEqualTo(RuleStatus.REMOVED);
     assertThat(db.ruleDao().getByKey(dbSession, RuleKey.of("xoo", "x2")).getStatus()).isEqualTo(RuleStatus.REMOVED);

@@ -22,7 +22,6 @@ package org.sonar.server.rule.ws;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -32,19 +31,16 @@ import org.sonar.core.permission.GlobalPermissions;
 import org.sonar.core.persistence.DbSession;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.rule.RuleService;
 import org.sonar.server.rule.RuleTesting;
 import org.sonar.server.rule.db.RuleDao;
-import org.sonar.server.tester.ServerTester;
 import org.sonar.server.user.MockUserSession;
 import org.sonar.server.ws.WsTester;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CreateActionMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class CreateActionMediumTest extends MediumTest {
 
   WsTester wsTester;
 

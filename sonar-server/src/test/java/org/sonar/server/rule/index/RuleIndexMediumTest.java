@@ -25,7 +25,6 @@ import com.google.common.collect.Sets;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -38,6 +37,7 @@ import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
 import org.sonar.core.technicaldebt.db.CharacteristicDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.debt.DebtTesting;
 import org.sonar.server.qualityprofile.ActiveRule;
@@ -46,7 +46,6 @@ import org.sonar.server.rule.db.RuleDao;
 import org.sonar.server.search.FacetValue;
 import org.sonar.server.search.QueryOptions;
 import org.sonar.server.search.Result;
-import org.sonar.server.tester.ServerTester;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,18 +57,17 @@ import java.util.List;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class RuleIndexMediumTest {
+public class RuleIndexMediumTest extends MediumTest {
 
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
-
-  RuleDao dao = tester.get(RuleDao.class);
-  RuleIndex index = tester.get(RuleIndex.class);
+  RuleDao dao;
+  RuleIndex index;
   DbClient db;
   DbSession dbSession;
 
   @Before
   public void before() {
+    dao = tester.get(RuleDao.class);
+    index = tester.get(RuleIndex.class);
     tester.clearDbAndIndexes();
     db = tester.get(DbClient.class);
     dbSession = db.openSession(false);

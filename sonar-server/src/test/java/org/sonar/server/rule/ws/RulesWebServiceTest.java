@@ -22,7 +22,6 @@ package org.sonar.server.rule.ws;
 import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -38,12 +37,12 @@ import org.sonar.core.qualityprofile.db.QualityProfileDao;
 import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.qualityprofile.db.ActiveRuleDao;
 import org.sonar.server.rule.db.RuleDao;
 import org.sonar.server.rule.index.RuleNormalizer;
 import org.sonar.server.search.ws.SearchOptions;
-import org.sonar.server.tester.ServerTester;
 import org.sonar.server.user.MockUserSession;
 import org.sonar.server.ws.WsTester;
 
@@ -52,10 +51,7 @@ import java.util.Date;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class RulesWebServiceTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class RulesWebServiceTest extends MediumTest {
 
   private static final String API_ENDPOINT = "api/rules";
   private static final String API_SEARCH_METHOD = "search";

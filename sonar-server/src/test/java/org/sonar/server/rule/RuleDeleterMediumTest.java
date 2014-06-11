@@ -22,7 +22,6 @@ package org.sonar.server.rule;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -32,6 +31,7 @@ import org.sonar.core.qualityprofile.db.ActiveRuleKey;
 import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.qualityprofile.db.QualityProfileKey;
 import org.sonar.core.rule.RuleDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.qualityprofile.ActiveRule;
 import org.sonar.server.qualityprofile.RuleActivation;
@@ -39,16 +39,12 @@ import org.sonar.server.qualityprofile.RuleActivator;
 import org.sonar.server.qualityprofile.index.ActiveRuleIndex;
 import org.sonar.server.rule.db.RuleDao;
 import org.sonar.server.rule.index.RuleIndex;
-import org.sonar.server.tester.ServerTester;
 
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class RuleDeleterMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class RuleDeleterMediumTest extends MediumTest {
 
   DbClient db = tester.get(DbClient.class);
   RuleDao dao = tester.get(RuleDao.class);

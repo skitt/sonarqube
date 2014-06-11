@@ -21,23 +21,19 @@ package org.sonar.server.log.ws;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.core.log.Log;
 import org.sonar.core.persistence.DbSession;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.log.LogService;
-import org.sonar.server.tester.ServerTester;
 import org.sonar.server.user.MockUserSession;
 import org.sonar.server.ws.WsTester;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class LogsWebServiceMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class LogsWebServiceMediumTest extends MediumTest {
 
   private LogsWebService ws;
   private LogService service;

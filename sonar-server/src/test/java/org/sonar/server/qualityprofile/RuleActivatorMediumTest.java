@@ -22,7 +22,6 @@ package org.sonar.server.qualityprofile;
 import com.google.common.collect.ImmutableMap;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -37,6 +36,7 @@ import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.qualityprofile.db.QualityProfileKey;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.exceptions.BadRequestException;
 import org.sonar.server.qualityprofile.index.ActiveRuleIndex;
@@ -45,7 +45,6 @@ import org.sonar.server.rule.RuleTesting;
 import org.sonar.server.rule.index.RuleIndex;
 import org.sonar.server.rule.index.RuleQuery;
 import org.sonar.server.search.QueryOptions;
-import org.sonar.server.tester.ServerTester;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -56,7 +55,7 @@ import java.util.Map;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class RuleActivatorMediumTest {
+public class RuleActivatorMediumTest extends MediumTest {
 
   static final QualityProfileKey XOO_PROFILE_KEY = QualityProfileKey.of("P1", "xoo");
   static final QualityProfileKey XOO_CHILD_PROFILE_KEY = QualityProfileKey.of("P2", "xoo");
@@ -64,9 +63,6 @@ public class RuleActivatorMediumTest {
   static final RuleKey MANUAL_RULE_KEY = RuleKey.of(Rule.MANUAL_REPOSITORY_KEY, "m1");
   static final RuleKey XOO_RULE_1 = RuleKey.of("xoo", "x1");
   static final RuleKey XOO_RULE_2 = RuleKey.of("xoo", "x2");
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
 
   DbClient db;
   DbSession dbSession;

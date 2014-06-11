@@ -49,28 +49,30 @@ public class ServerTester extends ExternalResource {
 
   private static final String PROP_PREFIX = "mediumTests.";
 
-  private final Platform platform;
-  private final File homeDir;
+  private Platform platform;
+  private File homeDir;
   private final List components = Lists.newArrayList(BackendCleanup.class, WsTester.class);
-  private final Properties initialProps = new Properties();
+  private List additionalComponents = Lists.newArrayList();
+  private Properties initialProps = new Properties();
 
-  public ServerTester() {
+  private ServerTester() {
     homeDir = createTempDir();
     platform = new Platform();
-  }
 
-  /**
-   * Called only when JUnit @Rule or @ClassRule is used.
-   */
-  @Override
-  protected void before() {
-    start();
+    //Register JVM shutdown hook
+    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+      @Override
+      public void run() {
+        platform.doStop();
+        FileUtils.deleteQuietly(homeDir);
+      }
+    }));
   }
 
   /**
    * This method should not be called by test when ServerTester is annotated with {@link org.junit.Rule}
    */
-  public void start() {
+  public ServerTester start() {
     checkNotStarted();
 
     Properties properties = new Properties();
@@ -87,11 +89,19 @@ public class ServerTester extends ExternalResource {
 
     platform.init(properties);
     platform.addComponents(components);
+    //If there are any additional Components:
+    platform.addComponents(additionalComponents);
+
     platform.doStart();
     if (!platform.isStarted()) {
       throw new IllegalStateException("Server not started. You should check that db migrations " +
         "are correctly declared, for example in schema-h2.sql or DatabaseVersion");
     }
+    return this;
+  }
+
+  private boolean isDirty() {
+    return !this.additionalComponents.isEmpty();
   }
 
   private File createTempDir() {
@@ -107,29 +117,13 @@ public class ServerTester extends ExternalResource {
   }
 
   /**
-   * Called only when JUnit @Rule or @ClassRule is used.
-   */
-  @Override
-  protected void after() {
-    stop();
-  }
-
-  /**
-   * This method should not be called by test when ServerTester is annotated with {@link org.junit.Rule}
-   */
-  public void stop() {
-    platform.doStop();
-    FileUtils.deleteQuietly(homeDir);
-  }
-
-  /**
    * Add classes or objects to IoC container, as it could be done by plugins.
    * Must be called before {@link #start()}.
    */
   public ServerTester addComponents(@Nullable Object... components) {
     checkNotStarted();
     if (components != null) {
-      this.components.addAll(Arrays.asList(components));
+      this.additionalComponents.addAll(Arrays.asList(components));
     }
     return this;
   }
@@ -192,4 +186,42 @@ public class ServerTester extends ExternalResource {
     }
   }
 
+  public ServerTester reload() {
+    if(isDirty()) {
+      this.reset();
+    }
+    if(isStarted()) {
+      this.clearDbAndIndexes();
+    } else {
+      FileUtils.deleteQuietly(homeDir);
+      homeDir = createTempDir();
+    }
+    return this;
+  }
+
+  public ServerTester restart() {
+    platform.restart();
+    return this;
+  }
+
+  public boolean isStarted() {
+    return platform.isStarted();
+  }
+
+  public ServerTester reset(){
+    platform.doStop();
+    FileUtils.deleteQuietly(homeDir);
+    homeDir = createTempDir();
+    additionalComponents = Lists.newArrayList();
+    platform = new Platform();
+    return this;
+  }
+
+  public void stop() {
+    platform.doStop();
+  }
+
+  public static ServerTester get(){
+    return new ServerTester();
+  }
 }

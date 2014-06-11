@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -38,6 +37,7 @@ import org.sonar.core.qualityprofile.db.QualityProfileKey;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
 import org.sonar.core.technicaldebt.db.CharacteristicDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.debt.DebtTesting;
 import org.sonar.server.qualityprofile.ActiveRule;
@@ -46,7 +46,6 @@ import org.sonar.server.qualityprofile.RuleActivator;
 import org.sonar.server.qualityprofile.index.ActiveRuleIndex;
 import org.sonar.server.rule.db.RuleDao;
 import org.sonar.server.rule.index.RuleIndex;
-import org.sonar.server.tester.ServerTester;
 import org.sonar.server.user.MockUserSession;
 import org.sonar.server.user.UserSession;
 
@@ -55,12 +54,9 @@ import java.util.Set;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
-public class RuleUpdaterMediumTest {
+public class RuleUpdaterMediumTest extends MediumTest {
 
   private static final RuleKey RULE_KEY = RuleKey.of("squid", "S001");
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
 
   DbClient db = tester.get(DbClient.class);
   RuleDao ruleDao = tester.get(RuleDao.class);

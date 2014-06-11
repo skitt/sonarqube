@@ -20,7 +20,6 @@
 package org.sonar.server.qualityprofile;
 
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
@@ -34,20 +33,17 @@ import org.sonar.core.qualityprofile.db.QualityProfileDto;
 import org.sonar.core.qualityprofile.db.QualityProfileKey;
 import org.sonar.core.rule.RuleDto;
 import org.sonar.core.rule.RuleParamDto;
+import org.sonar.server.MediumTest;
 import org.sonar.server.db.DbClient;
 import org.sonar.server.qualityprofile.index.ActiveRuleIndex;
 import org.sonar.server.rule.RuleTesting;
-import org.sonar.server.tester.ServerTester;
 
 import java.util.Collection;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class ActiveRuleBackendMediumTest {
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class ActiveRuleBackendMediumTest extends MediumTest {
 
   DbClient db;
   DbSession dbSession;

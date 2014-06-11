@@ -19,17 +19,13 @@
  */
 package org.sonar.server.search;
 
-import org.junit.ClassRule;
 import org.junit.Test;
+import org.sonar.server.MediumTest;
 import org.sonar.server.rule.index.RuleIndex;
-import org.sonar.server.tester.ServerTester;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class IndexClientMediumTest{
-
-  @ClassRule
-  public static ServerTester tester = new ServerTester();
+public class IndexClientMediumTest extends MediumTest {
 
   @Test
   public void get_index_class(){
