@@ -18,7 +18,7 @@ requirejs.config
 
 requirejs [
   'backbone.marionette'
-  'component-viewer/main'
+  'source-viewer/viewer'
   'drilldown/conf'
 ], (
   Marionette

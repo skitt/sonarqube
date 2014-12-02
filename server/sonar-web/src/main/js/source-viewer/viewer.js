@@ -6,6 +6,7 @@ define([
       'issue/models/issue',
       'issue/collections/issues',
       'issue/issue-view',
+      'source-viewer/header',
       'source-viewer/popups/scm-popup',
       'source-viewer/popups/coverage-popup',
       'source-viewer/popups/duplication-popup',
@@ -18,6 +19,7 @@ define([
               Issue,
               Issues,
               IssueView,
+              HeaderView,
               SCMPopupView,
               CoveragePopupView,
               DuplicationPopupView,
@@ -26,13 +28,17 @@ define([
       var $ = jQuery,
           HIGHLIGHTED_ROW_CLASS = 'source-line-highlighted';
 
-      return Marionette.ItemView.extend({
+      return Marionette.Layout.extend({
         className: 'source',
         template: Templates['source-viewer'],
 
         ISSUES_LIMIT: 100,
         LINES_LIMIT: 1000,
         LINES_AROUND: 500,
+
+        regions: {
+          headerRegion: '.source-viewer-header'
+        },
 
         ui: {
           sourceBeforeSpinner: '.js-component-viewer-source-before',
@@ -41,6 +47,7 @@ define([
 
         events: function () {
           return {
+            'click .sym': 'highlightUsages',
             'click .source-line-scm': 'showSCMPopup',
             'click .source-line-covered': 'showCoveragePopup',
             'click .source-line-partially-covered': 'showCoveragePopup',
@@ -62,7 +69,12 @@ define([
           this.scrollTimer = null;
         },
 
+        renderHeader: function () {
+          this.headerRegion.show(new HeaderView({ model: this.model }));
+        },
+
         onRender: function () {
+          this.renderHeader();
           this.renderIssues();
         },
 
@@ -228,16 +240,11 @@ define([
         },
 
         renderIssues: function () {
-          this.issues.forEach(this.renderIssue, this);
+          this.$('.issue-list').addClass('hidden');
         },
 
         renderIssue: function (issue) {
-          var issueView = new IssueView({
-            el: '#issue-' + issue.get('key'),
-            model: issue
-          });
-          this.issueViews.push(issueView);
-          issueView.render();
+          // do nothing
         },
 
         addIssue: function (issue) {
@@ -251,6 +258,15 @@ define([
           }
           issueList.append('<div class="issue" id="issue-' + issue.id + '"></div>');
           this.renderIssue(issue);
+        },
+
+        highlightUsages: function (e) {
+          var highlighted = $(e.currentTarget).is('.highlighted'),
+              key = e.currentTarget.className.split(/\s+/)[0];
+          this.$('.sym.highlighted').removeClass('highlighted');
+          if (!highlighted) {
+            this.$('.sym.' + key).addClass('highlighted');
+          }
         },
 
         showSCMPopup: function (e) {

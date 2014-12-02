@@ -2,11 +2,14 @@
   <script data-main="<%= ApplicationController.root_context -%>/js/dashboard/file-app" src="<%= ApplicationController.root_context -%>/js/require.js"></script>
 <% end %>
 
-<div class="marginbottom10"></div>
-<div id="accordion-panel"></div>
+<div class="page">
+  <div id="accordion-panel"></div>
+</div>
 
 <script type="text/javascript">
-  window.fileKey = '<%= @file.key -%>';
-  window.metric = '<%= @metric -%>';
+  window.file = {
+    uuid: '<%= @file.uuid -%>',
+    key: '<%= @file.key -%>'
+  };
   document.getElementById('crumbs').remove();
 </script>

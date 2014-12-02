@@ -18,12 +18,11 @@ requirejs.config
 
 requirejs [
   'backbone.marionette'
-  'component-viewer/main'
-  'drilldown/conf'
+  'source-viewer/viewer'
+  'common/handlebars-extensions'
 ], (
   Marionette
   ComponentViewer
-  MetricConf
 ) ->
 
   $ = jQuery
@@ -36,38 +35,16 @@ requirejs [
     viewerRegion: '#accordion-panel'
 
 
-  App.resizeContainer = ->
-    width = $(window).width()
-    height = $(window).height() - el.offset().top - $('#footer').height() - 10
-    el.innerWidth(width).innerHeight(height)
-
-
   App.requestComponentViewer = ->
     unless App.componentViewer?
-      @resizeContainer()
-      $(window).on 'resize', => @resizeContainer()
-      App.componentViewer = new ComponentViewer
-        elementToFit: el
+      App.componentViewer = new ComponentViewer()
       App.viewerRegion.show App.componentViewer
     App.componentViewer
 
 
-
   App.addInitializer ->
     viewer = App.requestComponentViewer()
-    if window.metric?
-      metricConf = MetricConf[window.metric]
-      if metricConf?
-        activeHeaderTab = metricConf.tab
-        activeHeaderItem = metricConf.item
-    viewer.open window.fileKey
-    viewer.on 'loaded', ->
-      viewer.off 'loaded'
-      if activeHeaderTab? && activeHeaderItem?
-        viewer.state.set activeHeaderTab: activeHeaderTab, activeHeaderItem: activeHeaderItem
-        viewer.headerView.render()
-      else
-        viewer.showAllLines()
+    viewer.open window.file.uuid, window.file.key
 
 
   # Message bundles
