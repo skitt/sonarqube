@@ -52,9 +52,9 @@ define([
 
     getPermalink: function () {
       //TODO Line permalink
-      var hash = 'component=' + encodeURIComponent(this.model.get('key')),
+      var query = 'id=' + encodeURIComponent(this.model.get('key')),
           windowParams = 'resizable=1,scrollbars=1,status=1';
-      window.open(baseUrl + '/component/index#' + hash, this.model.get('name'), windowParams);
+      window.open(baseUrl + '/component/index?' + query, this.model.get('name'), windowParams);
     },
 
     showRawSources: function () {

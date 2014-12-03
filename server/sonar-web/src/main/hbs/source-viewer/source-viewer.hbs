@@ -6,7 +6,7 @@
 
 <table class="source-table">
   {{#each source}}
-    <tr class="source-line {{#eq line 0}}{{#empty issues}}hidden{{/empty}}{{/eq}}">
+    <tr class="source-line {{#eq line 0}}{{#empty issues}}hidden{{/empty}}{{/eq}}" {{#if line}}data-line-number="{{line}}"{{/if}}>
       <td class="source-meta source-line-number" {{#if line}}data-line-number="{{line}}"{{/if}}></td>
 
       <td class="source-meta source-line-scm" {{#if line}}data-line-number="{{line}}"{{/if}}>

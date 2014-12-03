@@ -30,12 +30,11 @@ define [
 
     initialize: (options) ->
       super
-      @listenTo @, 'loaded', @onLoaded
       @listenTo options.app.state, 'change:selectedIndex', @select
 
 
     onLoaded: ->
-      @bindScrollEvents()
+      super
       @bindShortcuts()
       if @baseIssue?
         @scrollToLine @baseIssue.get 'line'

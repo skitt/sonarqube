@@ -10,7 +10,8 @@ define([
       'source-viewer/popups/scm-popup',
       'source-viewer/popups/coverage-popup',
       'source-viewer/popups/duplication-popup',
-      'source-viewer/popups/line-actions-popup'
+      'source-viewer/popups/line-actions-popup',
+      'common/handlebars-extensions'
     ],
     function (Backbone,
               Marionette,
@@ -54,7 +55,7 @@ define([
             'click .source-line-uncovered': 'showCoveragePopup',
             'click .source-line-duplications': 'showDuplications',
             'click .source-line-duplications-extra': 'showDuplicationPopup',
-            'click .source-line-number[data-line-number]': 'highlightLine'
+            'click .source-line-number[data-line-number]': 'onLineNumberClick'
           };
         },
 
@@ -67,6 +68,7 @@ define([
           this.loadSourceBeforeThrottled = _.throttle(this.loadSourceBefore, 1000);
           this.loadSourceAfterThrottled = _.throttle(this.loadSourceAfter, 1000);
           this.scrollTimer = null;
+          this.listenTo(this, 'loaded', this.onLoaded);
         },
 
         renderHeader: function () {
@@ -83,6 +85,10 @@ define([
             return view.close();
           });
           this.issueViews = [];
+        },
+
+        onLoaded: function () {
+          this.bindScrollEvents();
         },
 
         open: function (id, key) {
@@ -347,14 +353,27 @@ define([
           popup.render();
         },
 
-        highlightLine: function (e) {
+        onLineNumberClick: function (e) {
           var row = $(e.currentTarget).closest('.source-line'),
+              line = row.data('line-number'),
               highlighted = row.is('.' + HIGHLIGHTED_ROW_CLASS);
-          this.$('.' + HIGHLIGHTED_ROW_CLASS).removeClass(HIGHLIGHTED_ROW_CLASS);
           if (!highlighted) {
-            row.addClass(HIGHLIGHTED_ROW_CLASS);
+            this.highlightLine(line);
             this.showLineActionsPopup(e);
+          } else {
+            this.removeHighlighting();
           }
+        },
+
+        removeHighlighting: function () {
+          this.$('.' + HIGHLIGHTED_ROW_CLASS).removeClass(HIGHLIGHTED_ROW_CLASS);
+        },
+
+        highlightLine: function (line) {
+          var row = this.$('.source-line[data-line-number=' + line + ']');
+          this.removeHighlighting();
+          row.addClass(HIGHLIGHTED_ROW_CLASS);
+          return this;
         },
 
         bindScrollEvents: function () {
@@ -391,6 +410,21 @@ define([
             return this.loadSourceAfterThrottled();
           }
         },
+
+      scrollToLine: function (line) {
+        var row = this.$('.source-line[data-line-number=' + line + ']');
+        if (row.length > 0) {
+          var p = this.$el.scrollParent();
+          if (p.is(document)) {
+            p = $(window);
+          }
+          var pTopOffset = p.offset() != null ? p.offset().top : 0,
+              pHeight = p.height(),
+              goal = row.offset().top - pHeight / 3 - pTopOffset;
+          p.scrollTop(goal);
+        }
+        return this;
+      },
 
         loadSourceBefore: function () {
           this.unbindScrollEvents();
@@ -457,6 +491,15 @@ define([
             if (that.model.get('hasSourceBefore') || that.model.get('hasSourceAfter')) {
               that.bindScrollEvents();
             }
+          });
+        },
+
+        filterLines: function (func) {
+          var lines = this.model.get('source'),
+              $lines = this.$('.source-line');
+          lines.forEach(function (line, idx) {
+            var $line = $($lines[idx]);
+            $line.toggleClass('source-line-shadowed', !func(line));
           });
         }
       });

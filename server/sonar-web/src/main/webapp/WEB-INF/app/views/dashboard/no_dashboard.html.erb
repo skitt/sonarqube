@@ -1,15 +1,16 @@
 <% content_for :script do %>
-  <script data-main="<%= ApplicationController.root_context -%>/js/dashboard/file-app" src="<%= ApplicationController.root_context -%>/js/require.js"></script>
+  <script data-main="<%= ApplicationController.root_context -%>/js/source-viewer/app" src="<%= ApplicationController.root_context -%>/js/require.js"></script>
 <% end %>
 
 <div class="page">
-  <div id="accordion-panel"></div>
+  <div id="source-viewer"></div>
 </div>
 
 <script type="text/javascript">
   window.file = {
-    uuid: '<%= @file.uuid -%>',
-    key: '<%= @file.key -%>'
+    uuid: '<%= @resource.uuid -%>',
+    key: '<%= @resource.key -%>'
   };
   document.getElementById('crumbs').remove();
 </script>
+
