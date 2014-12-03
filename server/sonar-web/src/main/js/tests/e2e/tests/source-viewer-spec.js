@@ -96,45 +96,29 @@ casper.test.begin(testName('Decoration'), function (test) {
 });
 
 
-// FIXME enable test
-//casper.test.begin(testName('Test File'), function (test) {
-//  casper
-//      .start(lib.buildUrl('source-viewer'), function () {
-//        lib.setDefaultViewport();
-//
-//        lib.mockRequest('/api/l10n/index', '{}');
-//        lib.mockRequestFromFile('/api/components/app', 'tests/app.json');
-//        lib.mockRequestFromFile('/api/sources/lines', 'tests/lines.json');
-//        lib.mockRequestFromFile('/api/tests/show', 'tests/tests.json');
-//      })
-//
-//      .then(function () {
-//        casper.waitForSelector('.source-line');
-//      })
-//
-//      .then(function () {
-//        // Check coverage header and filters
-//        casper.click('.js-header-tab-tests');
-//        casper.waitForSelector('.js-unit-test', function () {
-//          test.assertSelectorContains('[data-metric="test_execution_time"]', '12');
-//          test.assertElementCount('.js-unit-test', 2);
-//          test.assertSelectorContains('.js-unit-test[data-name="should_return_i"]', 'should_return_i');
-//          test.assertSelectorContains('.js-unit-test[data-name="should_return_i"]', '5');
-//          test.assertSelectorContains('.js-unit-test[data-name="should_return_to_string"]', 'should_return_to_string');
-//          test.assertSelectorContains('.js-unit-test[data-name="should_return_to_string"]', '4');
-//
-//          casper.click('.js-unit-test[data-name="should_return_to_string"]');
-//          casper.waitForSelector('.bubble-popup', function () {
-//            test.assertSelectorContains('.bubble-popup', 'Sample.java');
-//            test.assertSelectorContains('.bubble-popup', 'src/main/java/sample');
-//          });
-//        });
-//      })
-//
-//      .run(function () {
-//        test.done();
-//      });
-//});
+casper.test.begin(testName('Test File'), function (test) {
+  casper
+      .start(lib.buildUrl('source-viewer'), function () {
+        lib.setDefaultViewport();
+
+        lib.mockRequest('/api/l10n/index', '{}');
+        lib.mockRequestFromFile('/api/components/app', 'tests/app.json');
+        lib.mockRequestFromFile('/api/sources/lines', 'tests/lines.json');
+        lib.mockRequestFromFile('/api/issues/search', 'issues.json');
+      })
+
+      .then(function () {
+        casper.waitForSelector('.source-line');
+      })
+
+      .then(function () {
+        test.assertSelectorContains('.source-viewer-header-measure', '6');
+      })
+
+      .run(function () {
+        test.done();
+      });
+});
 
 
 // FIXME enable test

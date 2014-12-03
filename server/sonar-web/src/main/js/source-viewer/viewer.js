@@ -123,6 +123,7 @@ define([
               options = { key: this.model.key() };
           return $.get(url, options).done(function (data) {
             that.model.set(data);
+            that.model.set({ isUnitTest: data.q === 'UTS' });
           });
         },
 
