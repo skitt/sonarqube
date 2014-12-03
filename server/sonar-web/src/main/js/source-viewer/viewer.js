@@ -29,7 +29,7 @@ define([
           HIGHLIGHTED_ROW_CLASS = 'source-line-highlighted';
 
       return Marionette.Layout.extend({
-        className: 'source',
+        className: 'source-viewer',
         template: Templates['source-viewer'],
 
         ISSUES_LIMIT: 100,
