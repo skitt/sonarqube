@@ -412,20 +412,20 @@ define([
           }
         },
 
-      scrollToLine: function (line) {
-        var row = this.$('.source-line[data-line-number=' + line + ']');
-        if (row.length > 0) {
-          var p = this.$el.scrollParent();
-          if (p.is(document)) {
-            p = $(window);
+        scrollToLine: function (line) {
+          var row = this.$('.source-line[data-line-number=' + line + ']');
+          if (row.length > 0) {
+            var p = this.$el.scrollParent();
+            if (p.is(document)) {
+              p = $(window);
+            }
+            var pTopOffset = p.offset() != null ? p.offset().top : 0,
+                pHeight = p.height(),
+                goal = row.offset().top - pHeight / 3 - pTopOffset;
+            p.scrollTop(goal);
           }
-          var pTopOffset = p.offset() != null ? p.offset().top : 0,
-              pHeight = p.height(),
-              goal = row.offset().top - pHeight / 3 - pTopOffset;
-          p.scrollTop(goal);
-        }
-        return this;
-      },
+          return this;
+        },
 
         loadSourceBefore: function () {
           this.unbindScrollEvents();
@@ -502,6 +502,20 @@ define([
             var $line = $($lines[idx]);
             $line.toggleClass('source-line-shadowed', !func(line));
           });
+        },
+
+        filterLinesByPeriod: function (periodId) {
+          var periods = this.model.get('periods'),
+              period = _.find(periods, function (candidate) {
+                return candidate[0] === periodId;
+              });
+          if (period) {
+            var sinceDate = moment(period[2]).toDate();
+            this.filterLines(function (line) {
+              var scmDate = moment(line.scmDate).toDate();
+              return scmDate >= sinceDate;
+            });
+          }
         }
       });
 
