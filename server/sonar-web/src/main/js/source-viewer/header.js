@@ -1,8 +1,9 @@
 define([
   'backbone.marionette',
   'templates/source-viewer',
-  'source-viewer/more-actions'
-], function (Marionette, Templates, MoreActionsView) {
+  'source-viewer/more-actions',
+  'source-viewer/measures-overlay'
+], function (Marionette, Templates, MoreActionsView, MeasuresOverlay) {
 
   var $ = jQuery,
       API_FAVORITE = baseUrl + '/api/favourites';
@@ -61,6 +62,11 @@ define([
       var url = baseUrl + '/api/sources/raw?key=' + encodeURIComponent(this.model.get('key')),
           windowParams = 'resizable=1,scrollbars=1,status=1';
       window.open(url, this.model.get('name'), windowParams);
+    },
+
+    showMeasures: function () {
+      var overlay = new MeasuresOverlay({ model: this.model });
+      overlay.show();
     }
   });
 

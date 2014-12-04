@@ -1,0 +1,444 @@
+<table class="source-viewer-measures">
+<tr>
+<td class="source-viewer-measures-section">
+  <div class="measures">
+    <div class="measures-chart">
+        <span class="js-pie-chart"
+              data-value="{{measures.ncloc}}"
+              data-max="{{measures.lines}}"
+              data-size="70"></span>
+    </div>
+    <div class="measures-list">
+      <div class="widget-measure widget-measure-main">
+        <span class="widget-label">{{t 'metric.ncloc.name'}}</span>
+        <span class="widget-number">{{measures.ncloc}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="measures measures-duplex">
+    <div class="measures-list">
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.lines.name'}}</span>
+        <span class="measure-value">{{measures.lines}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.classes.name'}}</span>
+        <span class="measure-value">{{measures.classes}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.functions.name'}}</span>
+        <span class="measure-value">{{measures.functions}}</span>
+      </div>
+    </div>
+    <div class="measures-list">
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.accessors.name'}}</span>
+        <span class="measure-value">{{measures.accessors}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.statements.name'}}</span>
+        <span class="measure-value">{{measures.statements}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.comment_lines.name'}}</span>
+        <span class="measure-value">{{measures.comment_lines}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="measures">
+    <div class="measures-chart">
+        <span class="js-pie-chart"
+              data-value="{{measures.comment_lines_density_raw}}"
+              data-max="100"
+              data-size="40"></span>
+    </div>
+    <div class="measures-list">
+      <div class="widget-measure-container">
+        <div class="widget-measure">
+          <span class="widget-label">Comments</span>
+          <span class="widget-number">{{measures.comment_lines_density}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="measures">
+    <div class="measures-list">
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.public_api.name'}}</span>
+        <span class="measure-value">{{measures.public_api}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.public_documented_api_density.name'}}</span>
+        <span class="measure-value">{{measures.public_documented_api_density}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.public_undocumented_api.name'}}</span>
+        <span class="measure-value">{{measures.public_undocumented_api}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="measures">
+    <div class="measures-list">
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.complexity.name'}}</span>
+        <span class="measure-value">{{measures.complexity}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.function_complexity.name'}}</span>
+        <span class="measure-value">{{measures.function_complexity}}</span>
+      </div>
+    </div>
+  </div>
+</td>
+
+<td class="source-viewer-measures-section">
+  <div class="measures">
+    <div class="measures-chart">
+      <span class="rating rating-{{measures.fSqaleRating}}">{{measures.fSqaleRating}}</span>
+    </div>
+    <div class="measures-list">
+      <div class="widget-measure widget-measure-main">
+        <span class="widget-label">{{t 'metric.sqale_index.short_name'}}</span>
+        <span class="widget-number">{{measures.fDebt}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="measures">
+    <div class="measures-list">
+      <div class="measure">
+        <span class="measure-name">Issues</span>
+        <span class="measure-value">{{measures.fIssues}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.sqale_debt_ratio.short_name'}}</span>
+        <span class="measure-value">{{measures.fSqaleDebtRatio}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="measures">
+    <div class="measures-list">
+      {{#if measures.blocker_violations}}
+        <div class="widget-measure">
+          <span class="widget-label">{{t 'severity.BLOCKER'}}</span>
+          <span class="widget-number">{{severityIcon 'BLOCKER'}}&nbsp;{{measures.blocker_violations}}</span>
+        </div>
+      {{/if}}
+      {{#if measures.critical_violations}}
+        <div class="widget-measure">
+          <span class="widget-label">{{t 'severity.CRITICAL'}}</span>
+          <span class="widget-number">{{severityIcon 'CRITICAL'}}&nbsp;{{measures.critical_violations}}</span>
+        </div>
+      {{/if}}
+      {{#if measures.major_violations}}
+        <div class="widget-measure">
+          <span class="widget-label">{{t 'severity.MAJOR'}}</span>
+          <span class="widget-number">{{severityIcon 'MAJOR'}}&nbsp;{{measures.major_violations}}</span>
+        </div>
+      {{/if}}
+      {{#if measures.minor_violations}}
+        <div class="widget-measure">
+          <span class="widget-label">{{t 'severity.MINOR'}}</span>
+          <span class="widget-number">{{severityIcon 'MINOR'}}&nbsp;{{measures.minor_violations}}</span>
+        </div>
+      {{/if}}
+      {{#if measures.info_violations}}
+        <div class="widget-measure">
+          <span class="widget-label">{{t 'severity.INFO'}}</span>
+          <span class="widget-number">{{severityIcon 'INFO'}}&nbsp;{{measures.info_violations}}</span>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</td>
+
+{{#unless isUnitTest}}
+  <td class="source-viewer-measures-section">
+  {{#all measures.coverage measures.it_coverage}}
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-size="70"></span>
+      </div>
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.coverage.name'}}</span>
+          <span class="measure-value">{{measures.coverage}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.line_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-base-color="#d4333f"
+                data-size="40"></span>
+      </div>
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.line_coverage.name'}}</span>
+          <span class="measure-value">{{measures.line_coverage}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.lines_to_cover.name'}}</span>
+          <span class="measure-value">{{measures.lines_to_cover}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.uncovered_lines.name'}}</span>
+          <span class="measure-value">{{measures.uncovered_lines}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.branch_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-base-color="#d4333f"
+                data-size="40"></span>
+      </div>
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.branch_coverage.name'}}</span>
+          <span class="measure-value">{{measures.branch_coverage}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.conditions_to_cover.name'}}</span>
+          <span class="measure-value">{{measures.conditions_to_cover}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.uncovered_conditions.name'}}</span>
+          <span class="measure-value">{{measures.uncovered_conditions}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.it_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-size="70"></span>
+      </div>
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.coverage.name'}}</span>
+          <span class="measure-value">{{measures.it_coverage}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.it_line_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-base-color="#d4333f"
+                data-size="40"></span>
+      </div>
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.line_coverage.name'}}</span>
+          <span class="measure-value">{{measures.it_line_coverage}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.lines_to_cover.name'}}</span>
+          <span class="measure-value">{{measures.it_lines_to_cover}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.uncovered_lines.name'}}</span>
+          <span class="measure-value">{{measures.it_uncovered_lines}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.it_branch_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-base-color="#d4333f"
+                data-size="40"></span>
+      </div>
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.branch_coverage.name'}}</span>
+          <span class="measure-value">{{measures.it_branch_coverage}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.conditions_to_cover.name'}}</span>
+          <span class="measure-value">{{measures.it_conditions_to_cover}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.uncovered_conditions.name'}}</span>
+          <span class="measure-value">{{measures.it_uncovered_conditions}}</span>
+        </div>
+      </div>
+    </div>
+  {{/all}}
+
+  {{#if measures.overall_coverage}}
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.overall_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-size="70"></span>
+      </div>
+      <div class="measures-list">
+        <div class="widget-measure widget-measure-main">
+          <span class="widget-label">{{t 'metric.coverage.name'}}</span>
+          <span class="widget-number">{{measures.overall_coverage}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.overall_line_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-base-color="#d4333f"
+                data-size="40"></span>
+      </div>
+      <div class="measures-list">
+        <div class="widget-measure-container">
+          <div class="widget-measure">
+            <span class="widget-label">{{t 'metric.line_coverage.name'}}</span>
+            <span class="widget-number">{{measures.overall_line_coverage}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.lines_to_cover.name'}}</span>
+          <span class="measure-value">{{measures.overall_lines_to_cover}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.uncovered_lines.name'}}</span>
+          <span class="measure-value">{{measures.overall_uncovered_lines}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-chart">
+          <span class="js-pie-chart"
+                data-value="{{measures.overall_branch_coverage_raw}}"
+                data-max="100"
+                data-color="#85bb43"
+                data-base-color="#d4333f"
+                data-size="40"></span>
+      </div>
+      <div class="measures-list">
+        <div class="widget-measure-container">
+          <div class="widget-measure">
+            <span class="widget-label">{{t 'metric.branch_coverage.name'}}</span>
+            <span class="widget-number">{{measures.overall_branch_coverage}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="measures">
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.conditions_to_cover.name'}}</span>
+          <span class="measure-value">{{measures.overall_conditions_to_cover}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.uncovered_conditions.name'}}</span>
+          <span class="measure-value">{{measures.overall_uncovered_conditions}}</span>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+  </td>
+{{/unless}}
+
+{{#if isUnitTest}}
+  <td class="source-viewer-measures-section">
+    <div class="measures">
+      <div class="measures-list">
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.tests.name'}}</span>
+          <span class="measure-value">{{measures.tests}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.test_success_density.name'}}</span>
+          <span class="measure-value">{{measures.test_success_density}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.test_failures.name'}}</span>
+          <span class="measure-value">{{measures.test_failures}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.test_errors.name'}}</span>
+          <span class="measure-value">{{measures.test_errors}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.skipped_tests.name'}}</span>
+          <span class="measure-value">{{measures.skipped_tests}}</span>
+        </div>
+        <div class="measure">
+          <span class="measure-name">{{t 'metric.test_execution_time.name'}}</span>
+          <span class="measure-value">{{measures.test_execution_time}}</span>
+        </div>
+      </div>
+    </div>
+  </td>
+{{/if}}
+
+<td class="source-viewer-measures-section">
+  <div class="measures">
+    <div class="measures-chart">
+        <span class="js-pie-chart"
+              data-value="{{measures.duplicated_lines_density_raw}}"
+              data-max="100"
+              data-size="70"
+              data-color="#f3ca8e"></span>
+    </div>
+    <div class="measures-list">
+      <div class="widget-measure widget-measure-main">
+        <span class="widget-label">Duplications</span>
+        <span class="widget-number">{{measures.duplicated_lines_density}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="measures">
+    <div class="measures-list">
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.duplicated_blocks.name'}}</span>
+        <span class="measure-value">{{measures.duplicated_blocks}}</span>
+      </div>
+      <div class="measure">
+        <span class="measure-name">{{t 'metric.duplicated_lines.name'}}</span>
+        <span class="measure-value">{{measures.duplicated_lines}}</span>
+      </div>
+    </div>
+  </div>
+</td>
+</tr>
+</table>
+
+<div class="modal-foot">
+  <a class="overlay-popup-close" title="{{t 'close'}}">{{t 'close'}}</a>
+</div>

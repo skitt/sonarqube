@@ -10,6 +10,7 @@ define([
     template: Templates['source-viewer-more-actions'],
 
     events: {
+      'click .js-measures': 'showMeasures',
       'click .js-new-window': 'openNewWindow',
       'click .js-raw-source': 'showRawSource'
     },
@@ -22,10 +23,13 @@ define([
       });
     },
 
+    showMeasures: function () {
+      this.options.parent.showMeasures();
+    },
+
     openNewWindow: function () {
       this.options.parent.getPermalink();
     },
-
 
     showRawSource: function () {
       this.options.parent.showRawSources();

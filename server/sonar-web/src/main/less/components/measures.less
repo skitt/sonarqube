@@ -1,0 +1,71 @@
+@import (reference) "../variables";
+@import (reference) "../mixins";
+@import (reference) "../ui";
+
+
+.measures {
+  font-size: 0;
+}
+
+.measures + .measures {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid @barBorderColor;
+}
+
+.measures-duplex {
+  .measures-list {
+    vertical-align: top;
+    width: 50%;
+  }
+}
+
+.measures-chart {
+  display: inline-block;
+  vertical-align: middle;
+  width: 70px;
+  margin-right: 20px;
+  text-align: center;
+
+  .rating {
+    font-size: 32px;
+  }
+}
+
+.measures-list {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: @baseFontSize;
+}
+
+.measures-list > .widget-measure-container {
+  margin-top: 0;
+}
+
+.measure {
+  line-height: 16px;
+}
+
+.measure + .measure {
+  margin-top: 6px;
+}
+
+.measure-name {
+
+
+  &:after {
+    content: ":";
+  }
+}
+
+.measure-value {
+
+}
+
+.measure-description {
+  display: block;
+  color: @secondFontColor;
+  font-size: @smallFontSize;
+}
+
+
