@@ -78,6 +78,9 @@ define([
         onRender: function () {
           this.renderHeader();
           this.renderIssues();
+          if (this.model.has('filterLinesFunc')) {
+            this.filterLines(this.model.get('filterLinesFunc'));
+          }
         },
 
         onClose: function () {
@@ -498,6 +501,7 @@ define([
         filterLines: function (func) {
           var lines = this.model.get('source'),
               $lines = this.$('.source-line');
+          this.model.set('filterLinesFunc', func);
           lines.forEach(function (line, idx) {
             var $line = $($lines[idx]);
             $line.toggleClass('source-line-shadowed', !func(line));
