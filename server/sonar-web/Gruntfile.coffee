@@ -192,17 +192,13 @@ module.exports = (grunt) ->
         name: 'drilldown/app'
         out: '<%= pkg.assets %>build/js/drilldown/app.js'
 
-      dashboardFile: options:
-        name: 'dashboard/file-app'
-        out: '<%= pkg.assets %>build/js/dashboard/file-app.js'
-
       dashboard: options:
         name: 'dashboard/app'
         out: '<%= pkg.assets %>build/js/dashboard/app.js'
 
-      componentViewer: options:
-        name: 'component-viewer/app'
-        out: '<%= pkg.assets %>build/js/component-viewer/app.js'
+      sourceViewer: options:
+        name: 'source-viewer/app'
+        out: '<%= pkg.assets %>build/js/source-viewer/app.js'
 
       design: options:
         name: 'design/app'
